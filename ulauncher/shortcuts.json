@@ -1,0 +1,32 @@
+{
+    "0c024e4e-30dd-445b-8dfe-c3d5aff422e9": {
+        "id": "0c024e4e-30dd-445b-8dfe-c3d5aff422e9",
+        "name": "Google Search",
+        "keyword": "g",
+        "cmd": "https://google.com/search?q=%s",
+        "icon": "/usr/share/ulauncher/media/google-search-icon.png",
+        "is_default_search": true,
+        "run_without_argument": false,
+        "added": 1717916502.7379634
+    },
+    "b47854c1-8886-43f1-9a39-31302a451232": {
+        "id": "b47854c1-8886-43f1-9a39-31302a451232",
+        "name": "Stack Overflow",
+        "keyword": "so",
+        "cmd": "https://stackoverflow.com/search?q=%s",
+        "icon": "/usr/share/ulauncher/media/stackoverflow-icon.svg",
+        "is_default_search": true,
+        "run_without_argument": false,
+        "added": 1717916502.737987
+    },
+    "ce5ad636-28e8-4393-9ace-72df7fc3879d": {
+        "id": "ce5ad636-28e8-4393-9ace-72df7fc3879d",
+        "name": "Wikipedia",
+        "keyword": "wiki",
+        "cmd": "https://en.wikipedia.org/wiki/%s",
+        "icon": "/usr/share/ulauncher/media/wikipedia-icon.png",
+        "is_default_search": true,
+        "run_without_argument": false,
+        "added": 1717916502.7380064
+    }
+}
