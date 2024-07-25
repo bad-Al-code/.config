@@ -155,4 +155,29 @@ return {
   {
     "tpope/vim-fugitive",
   },
+
+  -- code-snap
+  {
+    "mistricky/codesnap.nvim",
+    build = "make",
+
+    config = function()
+      require("codesnap").setup({
+        save_path = "~/Pictures",
+        mac_window_bar = true,
+        title = "CodeSnap.nvim",
+        code_font_family = "Dank Mono",
+        watermark_font_family = "SF Pro Display",
+        watermark = "bad-Al",
+        bg_theme = "peach",
+        breadcrumbs_separator = "/",
+        has_breadcrumbs = false,
+        has_line_number = true,
+        show_workspace = false,
+        min_width = 0,
+        bg_x_padding = 122,
+        bg_y_padding = 82,
+      })
+    end,
+  },
 }

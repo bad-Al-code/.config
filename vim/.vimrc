@@ -43,6 +43,7 @@ set backspace=indent,eol,start
 " Display matching parentheses
 set showmatch
 
+set scrolloff=10
 " Enable clipboard support (requires Vim to be compiled with +clipboard)
 set clipboard=unnamedplus
 

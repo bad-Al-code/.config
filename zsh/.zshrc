@@ -13,12 +13,7 @@ export LANG=en_US.UTF-8
 ##########################################################################################
 
 plugins=(
-  docker
-  brew
   aws
-  kubectl
-  kind
-  minikube
 	zsh-autosuggestions 
 	zsh-syntax-highlighting
 )
@@ -35,8 +30,9 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 alias c=clear
 alias history="history -E"
 # alias ls='lsd'
-alias ls='eza'
-alias la="eza --all --long --icons --git --tree --level=1"
+alias ls='eza --icons=always'
+# alias la="eza --all --long --icons --git --tree --level=1"
+alias la="eza --all --git --tree --level=1 --icons=always"
 alias l='la'
 alias ll='l'
 
@@ -66,9 +62,6 @@ alias tn="tmux new -s"
 alias gs="git status -s"
 alias gl='git log --oneline --all --graph'
 
-# notify alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
 ###########################################################################################
 
 autoload bashcompinit && bashcompinit
@@ -91,16 +84,41 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
-# fzf 
+######## fzf #########
+eval "$(fzf --zsh)"
 source /usr/share/doc/fzf/examples/key-bindings.zsh
-source ~/fzf-git.sh/fzf-git.sh
 
-export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
+######## fd #########
+# -- Use fd instead of fzf --
+
+export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+
+_fzf_compgen_path() {
+  fd --hidden --exclude .git . "$1"
+}
+
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type=d --hidden --exclude .git . "$1"
+}
+
+######## fzf-git #########
+source ~/fzf-git.sh/fzf-git.sh
+if [[ -n $TMUX ]]; then
+  source ~/fzf-git.sh/fzf-git.sh 
+fi
+
+######## bat #########
+export BAT_THEME=tokyonight_night
+
+
+########  Setup fzf previews #########
+show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
+export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
-# Advanced customization of fzf options via _fzf_comprun function
-# - The first argument to the function is the name of the command.
-# - You should make sure to pass the rest of the arguments to fzf.
 _fzf_comprun() {
   local command=$1
   shift
@@ -113,38 +131,13 @@ _fzf_comprun() {
   esac
 }
 
-# starship 
-# eval "$(starship init zsh)"
-#
-source ~/powerlevel10k/powerlevel10k.zsh-theme
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-export PATH="/home/linuxbrew/.linuxbrew/opt/postgresql@15/bin:$PATH" 
-export PATH="/home/linuxbrew/.linuxbrew/opt/postgresql@16/bin:$PATH"
-
-
-######## fd #########
-# -- Use fd instead of fzf --
-
-export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
-
-# Use fd (https://github.com/sharkdp/fd) for listing path candidates.
-# - The first argument to the function ($1) is the base path to start traversal
-# - See the source code (completion.{bash,zsh}) for the details.
-_fzf_compgen_path() {
-  fd --hidden --exclude .git . "$1"
-}
-
-# Use fd to generate the list for directory completion
-_fzf_compgen_dir() {
-  fd --type=d --hidden --exclude .git . "$1"
-}
-
 # thefuck 
 eval $(thefuck --alias)
+
+
+######## zocide #########
+eval "$(zoxide init zsh)"
+alias cd="z"
 
 # yazi
 function yy() {
@@ -157,4 +150,9 @@ function yy() {
 }
 
 
-export BAT_THEME="tokyonight_night"
+export PATH="/home/linuxbrew/.linuxbrew/opt/postgresql@15/bin:$PATH" 
+export PATH="/home/linuxbrew/.linuxbrew/opt/postgresql@16/bin:$PATH"
+
+source ~/powerlevel10k/powerlevel10k.zsh-theme
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
