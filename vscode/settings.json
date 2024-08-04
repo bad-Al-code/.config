@@ -3,11 +3,7 @@
   "terminal.integrated.cursorStyle": "line",
   "editor.fontFamily": "'Dank Mono','IBM Plex Mono', 'JetBrainsMonoNL Nerd Font','Droid Sans Mono', 'monospace', monospace",
   // "editor.fontWeight": "500", // 500 corresponds to Medium weight
-<<<<<<< HEAD
   "breadcrumbs.enabled": false,
-=======
-  // "breadcrumbs.enabled": false,
->>>>>>> refs/remotes/origin/main
 
   "workbench.startupEditor": "none",
   "diffEditor.ignoreTrimWhitespace": false,
